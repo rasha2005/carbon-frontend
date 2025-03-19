@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
 
 function App() {
-  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm();
 
   const [AITips, setAITips] = useState("");
   const { setDistance, setTransportType, distance, setCarbonFootprint, carbonFootprint, transportType } = useContext(carbonContext);
@@ -64,17 +64,20 @@ function App() {
   className="focus:ring-gray-500 focus:border-gray-500"
 />
 {errors.distance && <p className="text-red-500 text-sm">{errors.distance.message}</p>}
-            
-            <Select onValueChange={(value) => setValue("transportType", value)}>
-              <SelectTrigger className="focus:ring-gray-500 focus:border-gray-500">
-                <SelectValue placeholder="Select Transport Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="car">Car</SelectItem>
-                <SelectItem value="bus">Bus</SelectItem>
-                <SelectItem value="train">Train</SelectItem>
-              </SelectContent>
-            </Select>
+<Select 
+      value={watch("transportType") || ""} // Bind value to watch
+      onValueChange={(value) => setValue("transportType", value)}
+    >
+      <SelectTrigger className="focus:ring-gray-500 focus:border-gray-500">
+        <SelectValue placeholder="Select Transport Type" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="car">Car</SelectItem>
+        <SelectItem value="bus">Bus</SelectItem>
+        <SelectItem value="train">Train</SelectItem>
+      </SelectContent>
+    </Select>
+
 
             <Button type="submit" className="w-full bg-gray-800 hover:bg-gray-700">
               Calculate
