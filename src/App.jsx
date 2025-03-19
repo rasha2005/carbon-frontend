@@ -31,12 +31,13 @@ function App() {
 
   const FetchAPI = async () => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_FRONT_URL}/claude`, {
+      const response = await axios.post(`${import.meta.env.VITE_FRONT_URL}/gemini`, {
         distance,
         transportType
       });
       if (response) {
-        setAITips(response.data);
+        console.log("response",response);
+        setAITips(response.data.result);
       }
     } catch (error) {
       console.error("API Error:", error.response?.data || error.message);
@@ -88,7 +89,7 @@ function App() {
             <div className="mt-6 text-center">
               <h2 className="text-lg font-semibold text-gray-700">Carbon Footprint: {carbonFootprint} kg CO2</h2>
               <Button onClick={FetchAPI} className="mt-4 bg-gray-800 hover:bg-gray-700">
-                AI Tips
+              Generate Tip for Sustainable Travel
               </Button>
               <p className="mt-2 text-gray-600">{AITips}</p>
             </div>
